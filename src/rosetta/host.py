@@ -1,4 +1,5 @@
 from collections.abc import Sequence
+from pathlib import Path
 
 from .packageset import BasePackageSet, EncryptedRootPackageSet, PackageSet
 
@@ -19,8 +20,18 @@ class Host:
         """
         return f"Host(name={self.name}, packages={sorted(self.packages)})"
 
+    def write_package_list(self, output_path: Path) -> None:
+        """Write the Host's package list to a newline-separated text file."""
+        packages = sorted(self.packages)
+        output_path.parent.mkdir(exist_ok=True, parents=True)
+
+        with output_path.open("w", encoding="utf-8") as f:
+            f.writelines("\n".join(packages))
+            f.write("\n")
+
 
 HOSTS = {"rob-laptop": Host("rob-laptop", [BasePackageSet(), EncryptedRootPackageSet()])}
 
 if __name__ == "__main__":
     print(HOSTS["rob-laptop"])
+    HOSTS["rob-laptop"].write_package_list(Path("./test.txt"))
