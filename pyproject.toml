@@ -15,5 +15,6 @@ build-backend = "uv_build"
 
 [tool.ruff]
 select = ["ALL"]
+line-length = 100
 preview = true
 
