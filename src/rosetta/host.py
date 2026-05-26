@@ -3,17 +3,15 @@ from pathlib import Path
 
 from .packageset import (
     BasePackageSet,
+    DisplayManagerSet,
     EncryptedRootPackageSet,
     GuiPackageSet,
     LaptopPackageSet,
+    MangoDesktopSet,
     NvidiaPackageSet,
     PackageSet,
     PackageWithFiles,
     RobPCPackageSet,
-    FontsSet,
-    MangoDesktopSet,
-    WaylandAppsSet,
-    DisplayManagerSet,
 )
 
 
@@ -21,7 +19,9 @@ class Host:
     def __init__(self, name: str, packagesets: Sequence[PackageSet]) -> None:
         """Create instance attributes for host."""
         self.name = name
-        self.packages: set[str | PackageWithFiles] = set().union(*[p.packages for p in packagesets])
+        self.packages: set[str | PackageWithFiles] = set().union(
+            *[p.flatten() for p in packagesets],
+        )
 
     def __repr__(self) -> str:
         """Pretty repr for Host.
@@ -62,9 +62,7 @@ HOSTS = {
             EncryptedRootPackageSet(),
             LaptopPackageSet(),
             GuiPackageSet(),
-            FontsSet(),
             MangoDesktopSet(),
-            WaylandAppsSet(),
             DisplayManagerSet(),
         ],
     ),
@@ -75,9 +73,7 @@ HOSTS = {
             NvidiaPackageSet(),
             GuiPackageSet(),
             RobPCPackageSet(),
-            FontsSet(),
             MangoDesktopSet(),
-            WaylandAppsSet(),
             DisplayManagerSet(),
         ],
     ),

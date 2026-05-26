@@ -38,11 +38,22 @@ class PackageSet:
     """A set of packages."""
 
     # TODO(rob): Create class of package with attached files/services
-    packages: Collection[str | PackageWithFiles]
+    packages: "Collection[str | PackageWithFiles | PackageSet]"
 
     def __init__(self) -> None:
         """Ensure no duplicates in `packages` by converting to set."""
         self.packages = set(self.packages)
+
+    def flatten(self) -> list[str | PackageWithFiles]:
+        packages: list[str | PackageWithFiles] = []
+
+        for package in self.packages:
+            if isinstance(package, PackageSet):
+                packages.extend(package.flatten())
+            else:
+                packages.append(package)
+
+        return packages
 
 
 class BasePackageSet(PackageSet):
@@ -110,8 +121,15 @@ class NvidiaPackageSet(PackageSet):
     packages = ("nvidia-open",)
 
 
+class RobPCPackageSet(PackageSet):
+    """Packages specific to rob-pc."""
+
+    packages = (NvidiaPackageSet(), "ario", "ch57x-keyboard-tool", "ddcutil", "mpd", "mpc")
+
+
 class WaylandAppsSet(PackageSet):
     packages = (
+        FontsSet(),
         "blueman",
         "dogecoin-qt",
         "firefox",
@@ -134,4 +152,4 @@ class DisplayManagerSet(PackageSet):
 
 
 class MangoDesktopSet(PackageSet):
-    packages = ("mangowm", "memphis98-icon-theme-git", "pcmanfm-qt")
+    packages = (WaylandAppsSet(), "mangowm", "memphis98-icon-theme-git", "pcmanfm-qt")
