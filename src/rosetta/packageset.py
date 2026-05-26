@@ -59,7 +59,7 @@ class PackageSet:
         """Ensure no duplicates in `packages` by converting to set."""
         self.packages = set(self.packages)
 
-    def flatten(self) -> list[str | PackageWithFiles]:
+    def flatten(self) -> set[str | PackageWithFiles]:
         packages: list[str | PackageWithFiles] = []
 
         for package in self.packages:
@@ -68,7 +68,7 @@ class PackageSet:
             else:
                 packages.append(package)
 
-        return packages
+        return set(packages)
 
 
 class BasePackageSet(PackageSet):
