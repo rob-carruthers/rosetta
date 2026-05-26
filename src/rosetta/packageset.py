@@ -120,12 +120,6 @@ class LaptopPackageSet(PackageSet):
     packages = ("acpi", "brightnessctl")
 
 
-class RobPCPackageSet(PackageSet):
-    """Packages specific to rob-pc."""
-
-    packages = ("ario", "ch57x-keyboard-tool", "ddcutil", "mpd", "mpc")
-
-
 class NvidiaPackageSet(PackageSet):
     """NVIDIA drivers."""
 
