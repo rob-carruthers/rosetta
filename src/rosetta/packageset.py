@@ -99,4 +99,4 @@ class RobPCPackageSet(PackageSet):
 class NvidiaPackageSet(PackageSet):
     """NVIDIA drivers."""
 
-    packages = ("nvidia",)
+    packages = ("nvidia-open",)
