@@ -75,7 +75,13 @@ class BasePackageSet(PackageSet):
     """The base package set, to be installed on all hosts."""
 
     packages = (
-        PackageWithFiles("base", (FileToInstall(install_location="/etc/fstab", mode=0o644),)),
+        PackageWithFiles(
+            "base",
+            (
+                FileToInstall(install_location="/etc/fstab", mode=0o644),
+                FileToInstall(install_location="/etc/udev/rules.d/99fast_charge.rules", mode=0o644),
+            ),
+        ),
         "base-devel",
         "bash-completion",
         "btrfs-progs",
@@ -133,7 +139,23 @@ class NvidiaPackageSet(PackageSet):
 class RobPCPackageSet(PackageSet):
     """Packages specific to rob-pc."""
 
-    packages = (NvidiaPackageSet(), "ario", "ch57x-keyboard-tool", "ddcutil", "mpd", "mpc")
+    packages = (
+        NvidiaPackageSet(),
+        "ario",
+        PackageWithFiles(
+            "ch57x-keyboard-tool",
+            (FileToInstall("/etc/udev/rules.d/99utility_keys.rules", mode=0o644),),
+        ),
+        PackageWithFiles(
+            "ddcutil",
+            (
+                FileToInstall("/usr/local/bin/monitor-switch.sh", mode=0o755),
+                FileToInstall("/etc/udev/rules.d/99monitor_switch.rules", mode=0o644),
+            ),
+        ),
+        "mpd",
+        "mpc",
+    )
 
 
 class WaylandAppsSet(PackageSet):
@@ -147,7 +169,10 @@ class WaylandAppsSet(PackageSet):
         "musescore",
         "pavucontrol",
         "qutebrowser",
-        "swayidle",
+        PackageWithFiles(
+            "swayidle",
+            (FileToInstall("/usr/local/bin/idle-command.sh", mode=0o755),),
+        ),
         "syncthingtray",
         "waybar",
         "wl-clipboard",
