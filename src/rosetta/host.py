@@ -22,6 +22,7 @@ class Host:
         self.packages: set[str | PackageWithFiles] = set().union(
             *[p.flatten() for p in packagesets],
         )
+        self.packages |= BasePackageSet().flatten()
 
     def __repr__(self) -> str:
         """Pretty repr for Host.
@@ -64,7 +65,6 @@ HOSTS = {
     "rob-laptop": Host(
         "rob-laptop",
         [
-            BasePackageSet(),
             EncryptedRootPackageSet(),
             LaptopPackageSet(),
             GuiPackageSet(),
@@ -75,7 +75,6 @@ HOSTS = {
     "rob-pc": Host(
         "rob-pc",
         [
-            BasePackageSet(),
             NvidiaPackageSet(),
             GuiPackageSet(),
             RobPCPackageSet(),
