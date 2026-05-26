@@ -6,7 +6,7 @@ from dataclasses import dataclass, field
 @dataclass(frozen=True)
 class FileToInstall:
     install_location: str
-    mode: str
+    mode: int
     source: Path | None = None
 
 
