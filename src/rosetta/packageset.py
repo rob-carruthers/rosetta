@@ -39,4 +39,12 @@ class BasePackageSet(PackageSet):
 
 
 class EncryptedRootPackageSet(PackageSet):
+    """Packages needed for an encrypted rootfs."""
+
     packages = ("cryptsetup",)
+
+
+class LaptopPackageSet(PackageSet):
+    """Packages required for laptop."""
+
+    packages = ("acpi", "brightnessctl")

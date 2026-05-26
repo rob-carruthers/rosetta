@@ -1,7 +1,7 @@
 from collections.abc import Sequence
 from pathlib import Path
 
-from .packageset import BasePackageSet, EncryptedRootPackageSet, PackageSet
+from .packageset import BasePackageSet, EncryptedRootPackageSet, LaptopPackageSet, PackageSet
 
 
 class Host:
@@ -30,7 +30,11 @@ class Host:
             f.write("\n")
 
 
-HOSTS = {"rob-laptop": Host("rob-laptop", [BasePackageSet(), EncryptedRootPackageSet()])}
+HOSTS = {
+    "rob-laptop": Host(
+        "rob-laptop", [BasePackageSet(), EncryptedRootPackageSet(), LaptopPackageSet()]
+    )
+}
 
 if __name__ == "__main__":
     print(HOSTS["rob-laptop"])
