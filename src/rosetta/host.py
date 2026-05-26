@@ -1,3 +1,5 @@
+"""Host definitions and operations."""
+
 from collections.abc import Sequence
 from pathlib import Path
 
@@ -16,6 +18,8 @@ from .packageset import (
 
 
 class Host:
+    """Definition of a host."""
+
     def __init__(self, name: str, packagesets: Sequence[type[PackageSet]]) -> None:
         """Create instance attributes for host."""
         self.name = name
@@ -47,13 +51,15 @@ class Host:
             f.writelines("\n".join(packages))
             f.write("\n")
 
-    def check_files_exist(self, config_base_dir: Path, hostname: str):
+    def check_files_exist(self, config_base_dir: Path, hostname: str) -> None:
+        """Check if accompanying files exist for all PackageWithFiles."""
         for package in self.packages:
             if isinstance(package, str):
                 continue
             package.get_per_host_files(config_base_dir, hostname)
 
-    def install_files(self, config_base_dir: Path, hostname: str, *, dry_run: bool = False):
+    def install_files(self, config_base_dir: Path, hostname: str, *, dry_run: bool = False) -> None:
+        """Install files for all PackageWithFiles."""
         for package in self.packages:
             if isinstance(package, str):
                 continue

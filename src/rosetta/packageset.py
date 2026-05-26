@@ -1,3 +1,5 @@
+"""Package sets and operations."""
+
 import shutil
 from dataclasses import dataclass
 from pathlib import Path
@@ -9,13 +11,31 @@ if TYPE_CHECKING:
 
 @dataclass(frozen=True)
 class FileToInstall:
+    """A file to install from a local copy.
+
+    `source` begins None (generic to all hosts), but when a specific host is requested through
+    `PackageWithFiles.get_per_host_files()`, the `source` attribute is resolved to the location of
+    the input file for that host. Per-host files are then checked for existence.
+    """
+
     install_location: str
     mode: int
     source: Path | None = None
 
     def install(self, *, dry_run: bool) -> None:
+        """Install a file to the root filesystem with given mode.
+
+        This will almost certainly need root privileges.
+
+        Raises
+        ------
+        FileNotFoundError
+            If `source` is None, the input file source has not been resolved yet.
+
+        """
         if self.source is None:
-            raise ValueError
+            msg = f"Could not resolve source for {self.install_location}"
+            raise FileNotFoundError(msg)
 
         if dry_run:
             print(f"would copy {self.source} to {self.install_location} with mode {oct(self.mode)}")
@@ -27,10 +47,28 @@ class FileToInstall:
 
 @dataclass(frozen=True)
 class PackageWithFiles:
+    """A package with additional custom configuration files to install."""
+
     package: str
     files: tuple[FileToInstall, ...]
 
     def get_per_host_files(self, config_base_dir: Path, hostname: str) -> tuple[FileToInstall, ...]:
+        """Locate configuration files for this package for a given host.
+
+        Returns
+        -------
+        tuple[FileToInstall, ...]
+            The tuple of FileToInstall with resolved source paths for this host.
+
+        Raises
+        ------
+        TypeError
+            If any FileToInstall.source is None, something has gone wrong.
+
+        FileNotFoundError
+            The source file for this host was not found.
+
+        """
         output = tuple(
             FileToInstall(
                 source=config_base_dir / hostname / file.install_location.lstrip("/"),
@@ -39,6 +77,7 @@ class PackageWithFiles:
             )
             for file in self.files
         )
+
         for file in output:
             if file.source is None:
                 raise TypeError
@@ -52,7 +91,6 @@ class PackageWithFiles:
 class PackageSet:
     """A set of packages."""
 
-    # TODO(rob): Create class of package with attached files/services
     packages: "Collection[str | PackageWithFiles | PackageSet]"
 
     def __init__(self) -> None:
@@ -60,6 +98,14 @@ class PackageSet:
         self.packages = set(self.packages)
 
     def flatten(self) -> set[str | PackageWithFiles]:
+        """Recursively flatten nestec PackageSets to just flat str | PackageWithFiles.
+
+        Returns
+        -------
+        set[str | PackageWithFiles]
+            The set of packages from this PackageSet and all nested PackageSets.
+
+        """
         packages: list[str | PackageWithFiles] = []
 
         for package in self.packages:
@@ -159,6 +205,8 @@ class RobPCPackageSet(PackageSet):
 
 
 class WaylandAppsSet(PackageSet):
+    """Apps for a wayland-based desktop."""
+
     packages = (
         FontsSet(),
         "blueman",
@@ -182,6 +230,8 @@ class WaylandAppsSet(PackageSet):
 
 
 class DisplayManagerSet(PackageSet):
+    """Packages for providing a display manager."""
+
     packages = (
         "cage",
         PackageWithFiles(
