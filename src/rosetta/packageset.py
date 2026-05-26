@@ -78,7 +78,25 @@ class EncryptedRootPackageSet(PackageSet):
     packages = ("cryptsetup",)
 
 
+class GuiPackageSet(PackageSet):
+    """Packages needed for any GUI system."""
+
+    packages = ("pulsemixer", "syncthing")
+
+
 class LaptopPackageSet(PackageSet):
     """Packages required for laptop."""
 
     packages = ("acpi", "brightnessctl")
+
+
+class RobPCPackageSet(PackageSet):
+    """Packages specific to rob-pc."""
+
+    packages = ("ario", "mpd", "mpc")
+
+
+class NvidiaPackageSet(PackageSet):
+    """NVIDIA drivers."""
+
+    packages = ("nvidia",)

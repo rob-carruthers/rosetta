@@ -4,9 +4,12 @@ from pathlib import Path
 from .packageset import (
     BasePackageSet,
     EncryptedRootPackageSet,
+    GuiPackageSet,
     LaptopPackageSet,
+    NvidiaPackageSet,
     PackageSet,
     PackageWithFiles,
+    RobPCPackageSet,
 )
 
 
@@ -50,11 +53,11 @@ class Host:
 HOSTS = {
     "rob-laptop": Host(
         "rob-laptop",
-        [BasePackageSet(), EncryptedRootPackageSet(), LaptopPackageSet()],
+        [BasePackageSet(), EncryptedRootPackageSet(), LaptopPackageSet(), GuiPackageSet()],
     ),
     "rob-pc": Host(
         "rob-pc",
-        [BasePackageSet()],
+        [BasePackageSet(), NvidiaPackageSet(), GuiPackageSet(), RobPCPackageSet()],
     ),
 }
 
