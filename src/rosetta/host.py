@@ -16,11 +16,11 @@ from .packageset import (
 
 
 class Host:
-    def __init__(self, name: str, packagesets: Sequence[PackageSet]) -> None:
+    def __init__(self, name: str, packagesets: Sequence[type[PackageSet]]) -> None:
         """Create instance attributes for host."""
         self.name = name
         self.packages: set[str | PackageWithFiles] = set().union(
-            *[p.flatten() for p in packagesets],
+            *[p().flatten() for p in packagesets],
         )
         self.packages |= BasePackageSet().flatten()
 
@@ -65,22 +65,16 @@ HOSTS = {
     "rob-laptop": Host(
         "rob-laptop",
         [
-            EncryptedRootPackageSet(),
-            LaptopPackageSet(),
-            GuiPackageSet(),
-            MangoDesktopSet(),
-            DisplayManagerSet(),
+            EncryptedRootPackageSet,
+            LaptopPackageSet,
+            GuiPackageSet,
+            MangoDesktopSet,
+            DisplayManagerSet,
         ],
     ),
     "rob-pc": Host(
         "rob-pc",
-        [
-            NvidiaPackageSet(),
-            GuiPackageSet(),
-            RobPCPackageSet(),
-            MangoDesktopSet(),
-            DisplayManagerSet(),
-        ],
+        [NvidiaPackageSet, GuiPackageSet, RobPCPackageSet, MangoDesktopSet, DisplayManagerSet],
     ),
 }
 
