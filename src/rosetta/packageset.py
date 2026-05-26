@@ -182,7 +182,15 @@ class WaylandAppsSet(PackageSet):
 
 
 class DisplayManagerSet(PackageSet):
-    packages = ("cage", "greetd", "greetd-regreet", "seatd")
+    packages = (
+        "cage",
+        PackageWithFiles(
+            "greetd",
+            (FileToInstall("/etc/greetd/config.toml", 0o644),),
+        ),
+        "greetd-regreet",
+        "seatd",
+    )
 
 
 class MangoDesktopSet(PackageSet):
