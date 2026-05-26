@@ -49,10 +49,16 @@ class Host:
 
 HOSTS = {
     "rob-laptop": Host(
-        "rob-laptop", [BasePackageSet(), EncryptedRootPackageSet(), LaptopPackageSet()]
-    )
+        "rob-laptop",
+        [BasePackageSet(), EncryptedRootPackageSet(), LaptopPackageSet()],
+    ),
+    "rob-pc": Host(
+        "rob-pc",
+        [BasePackageSet()],
+    ),
 }
 
 if __name__ == "__main__":
-    print(HOSTS["rob-laptop"])
-    HOSTS["rob-laptop"].write_package_list(Path("./test.txt"))
+    print(HOSTS["rob-pc"])
+    HOSTS["rob-pc"].write_package_list(Path("./test.txt"))
+    HOSTS["rob-pc"].check_files_exist()
