@@ -46,12 +46,18 @@ class Host:
             f.writelines("\n".join(packages))
             f.write("\n")
 
-    def check_files_exist(self):
+    def check_files_exist(self, config_base_dir: Path, hostname: str):
         for package in self.packages:
             if isinstance(package, str):
                 continue
-            files = package.get_per_host_files(Path("./hosts"), "rob-pc")
-            print(files)
+            package.get_per_host_files(config_base_dir, hostname)
+
+    def install_files(self, config_base_dir: Path, hostname: str, *, dry_run: bool = False):
+        for package in self.packages:
+            if isinstance(package, str):
+                continue
+            for file in package.get_per_host_files(config_base_dir, hostname):
+                file.install(dry_run=dry_run)
 
 
 HOSTS = {
@@ -80,6 +86,9 @@ HOSTS = {
 }
 
 if __name__ == "__main__":
-    print(HOSTS["rob-pc"])
-    HOSTS["rob-pc"].write_package_list(Path("./test.txt"))
-    HOSTS["rob-pc"].check_files_exist()
+    hostname = "rob-pc"
+    hosts_path = Path("./hosts")
+    print(HOSTS[hostname])
+    HOSTS[hostname].write_package_list(Path("./test.txt"))
+    HOSTS[hostname].check_files_exist(hosts_path, hostname)
+    HOSTS[hostname].install_files(hosts_path, hostname, dry_run=True)

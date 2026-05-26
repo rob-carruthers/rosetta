@@ -9,6 +9,17 @@ class FileToInstall:
     mode: int
     source: Path | None = None
 
+    def install(self, *, dry_run: bool) -> None:
+        if self.source is None:
+            raise ValueError
+
+        if dry_run:
+            print(f"would copy {self.source} to {self.install_location} with mode {oct(self.mode)}")
+            return
+
+        shutil.copy2(self.source, self.install_location)
+        Path(self.install_location).chmod(self.mode)
+
 
 @dataclass(frozen=True)
 class PackageWithFiles:
