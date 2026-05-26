@@ -39,6 +39,13 @@ class Host:
             f.writelines("\n".join(packages))
             f.write("\n")
 
+    def check_files_exist(self):
+        for package in self.packages:
+            if isinstance(package, str):
+                continue
+            files = package.get_per_host_files(Path("./hosts"), "rob-pc")
+            print(files)
+
 
 HOSTS = {
     "rob-laptop": Host(
