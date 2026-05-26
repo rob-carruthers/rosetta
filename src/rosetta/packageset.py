@@ -67,6 +67,7 @@ class BasePackageSet(PackageSet):
         "openssh",
         "starship",
         "sudo",
+        "tmux",
         "uv",
     )
 
