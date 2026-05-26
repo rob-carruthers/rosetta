@@ -1,14 +1,20 @@
 from collections.abc import Sequence
 from pathlib import Path
 
-from .packageset import BasePackageSet, EncryptedRootPackageSet, LaptopPackageSet, PackageSet
+from .packageset import (
+    BasePackageSet,
+    EncryptedRootPackageSet,
+    LaptopPackageSet,
+    PackageSet,
+    PackageWithFiles,
+)
 
 
 class Host:
     def __init__(self, name: str, packagesets: Sequence[PackageSet]) -> None:
         """Create instance attributes for host."""
         self.name = name
-        self.packages = set().union(*[p.packages for p in packagesets])
+        self.packages: set[str | PackageWithFiles] = set().union(*[p.packages for p in packagesets])
 
     def __repr__(self) -> str:
         """Pretty repr for Host.
@@ -18,11 +24,15 @@ class Host:
         str
 
         """
-        return f"Host(name={self.name}, packages={sorted(self.packages)})"
+        sorted_packages = sorted(
+            p.package if isinstance(p, PackageWithFiles) else p for p in self.packages
+        )
+        return f"Host(name={self.name}, packages={sorted_packages})"
 
     def write_package_list(self, output_path: Path) -> None:
         """Write the Host's package list to a newline-separated text file."""
-        packages = sorted(self.packages)
+        packages = [p.package if isinstance(p, PackageWithFiles) else p for p in self.packages]
+        packages.sort()
         output_path.parent.mkdir(exist_ok=True, parents=True)
 
         with output_path.open("w", encoding="utf-8") as f:
