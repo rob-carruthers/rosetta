@@ -204,28 +204,37 @@ class RobPCPackageSet(PackageSet):
     )
 
 
+class WaylandUtilitiesSet(PackageSet):
+    """Small utilities, such as panels, terminals, launchers..."""
+
+    packages = (
+        "foot",
+        "gtklock",
+        "pavucontrol",
+        PackageWithFiles(
+            "swayidle",
+            (FileToInstall("/usr/local/bin/idle-command.sh", mode=0o755),),
+        ),
+        "waybar",
+        "wl-clipboard",
+        "wlopm",
+        "wofi",
+    )
+
+
 class WaylandAppsSet(PackageSet):
     """Apps for a wayland-based desktop."""
 
     packages = (
         FontsSet(),
+        WaylandUtilitiesSet(),
         "blueman",
         "dogecoin-qt",
         "firefox",
-        "foot",
-        "gtklock",
         "musescore",
         "pavucontrol",
         "qutebrowser",
-        PackageWithFiles(
-            "swayidle",
-            (FileToInstall("/usr/local/bin/idle-command.sh", mode=0o755),),
-        ),
         "syncthingtray",
-        "waybar",
-        "wl-clipboard",
-        "wlopm",
-        "wofi",
     )
 
 
@@ -244,4 +253,6 @@ class DisplayManagerSet(PackageSet):
 
 
 class MangoDesktopSet(PackageSet):
+    """Packages for mango wm desktop."""
+
     packages = (WaylandAppsSet(), "mangowm", "memphis98-icon-theme-git", "pcmanfm-qt")
