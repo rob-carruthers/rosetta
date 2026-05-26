@@ -17,12 +17,24 @@ class BasePackageSet(PackageSet):
 
     packages = (
         "base",
+        "base-devel",
+        "bash-completion",
         "btrfs-progs",
+        "chezmoi",
+        "dosfstools",
+        "efibootmgr",
+        "git",
         "helix",
+        "htop",
+        "lazygit",
         "linux",
         "linux-firmware",
+        "ncdu",
         "networkmanager",
         "openssh",
+        "starship",
+        "sudo",
+        "uv",
     )
 
 
