@@ -60,11 +60,13 @@ class BasePackageSet(PackageSet):
         "helix",
         "htop",
         "lazygit",
+        "less",
         "linux",
         "linux-firmware",
         "ncdu",
         "networkmanager",
         "openssh",
+        "ripgrep",
         "starship",
         "sudo",
         "tmux",
@@ -78,10 +80,16 @@ class EncryptedRootPackageSet(PackageSet):
     packages = ("cryptsetup",)
 
 
+class FontsSet(PackageSet):
+    """Fonts."""
+
+    packages = ("noto-fonts", "noto-fonts-emoji", "otf-font-awesome", "ttf-jetbrains-mono-nerd")
+
+
 class GuiPackageSet(PackageSet):
     """Packages needed for any GUI system."""
 
-    packages = ("pulsemixer", "syncthing")
+    packages = ("avahi", "nss-mdns", "pulsemixer", "syncthing")
 
 
 class LaptopPackageSet(PackageSet):
@@ -93,10 +101,37 @@ class LaptopPackageSet(PackageSet):
 class RobPCPackageSet(PackageSet):
     """Packages specific to rob-pc."""
 
-    packages = ("ario", "mpd", "mpc")
+    packages = ("ario", "ch57x-keyboard-tool", "ddcutil", "mpd", "mpc")
 
 
 class NvidiaPackageSet(PackageSet):
     """NVIDIA drivers."""
 
     packages = ("nvidia-open",)
+
+
+class WaylandAppsSet(PackageSet):
+    packages = (
+        "blueman",
+        "dogecoin-qt",
+        "firefox",
+        "foot",
+        "gtklock",
+        "musescore",
+        "pavucontrol",
+        "qutebrowser",
+        "swayidle",
+        "syncthingtray",
+        "waybar",
+        "wl-clipboard",
+        "wlopm",
+        "wofi",
+    )
+
+
+class DisplayManagerSet(PackageSet):
+    packages = ("cage", "greetd", "greetd-regreet", "seatd")
+
+
+class MangoDesktopSet(PackageSet):
+    packages = ("mangowm", "memphis98-icon-theme-git", "pcmanfm-qt")

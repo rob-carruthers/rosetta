@@ -10,6 +10,10 @@ from .packageset import (
     PackageSet,
     PackageWithFiles,
     RobPCPackageSet,
+    FontsSet,
+    MangoDesktopSet,
+    WaylandAppsSet,
+    DisplayManagerSet,
 )
 
 
@@ -53,11 +57,29 @@ class Host:
 HOSTS = {
     "rob-laptop": Host(
         "rob-laptop",
-        [BasePackageSet(), EncryptedRootPackageSet(), LaptopPackageSet(), GuiPackageSet()],
+        [
+            BasePackageSet(),
+            EncryptedRootPackageSet(),
+            LaptopPackageSet(),
+            GuiPackageSet(),
+            FontsSet(),
+            MangoDesktopSet(),
+            WaylandAppsSet(),
+            DisplayManagerSet(),
+        ],
     ),
     "rob-pc": Host(
         "rob-pc",
-        [BasePackageSet(), NvidiaPackageSet(), GuiPackageSet(), RobPCPackageSet()],
+        [
+            BasePackageSet(),
+            NvidiaPackageSet(),
+            GuiPackageSet(),
+            RobPCPackageSet(),
+            FontsSet(),
+            MangoDesktopSet(),
+            WaylandAppsSet(),
+            DisplayManagerSet(),
+        ],
     ),
 }
 
