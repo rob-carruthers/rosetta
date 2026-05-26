@@ -75,7 +75,7 @@ class BasePackageSet(PackageSet):
     """The base package set, to be installed on all hosts."""
 
     packages = (
-        PackageWithFiles("base", (FileToInstall("/etc/fstab", "hi"),)),
+        PackageWithFiles("base", (FileToInstall(install_location="/etc/fstab", mode=0o644),)),
         "base-devel",
         "bash-completion",
         "btrfs-progs",
