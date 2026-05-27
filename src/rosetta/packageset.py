@@ -98,7 +98,7 @@ class PackageSet:
         self.packages = set(self.packages)
 
     def flatten(self) -> set[str | PackageWithFiles]:
-        """Recursively flatten nestec PackageSets to just flat str | PackageWithFiles.
+        """Recursively flatten nested PackageSets to just flat str | PackageWithFiles.
 
         Returns
         -------
