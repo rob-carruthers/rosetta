@@ -6,9 +6,9 @@
 UUID=88ed434a-a692-447f-9caf-5814016a3305	/         	btrfs     	rw,noatime,compress=zstd:3,ssd,discard=async,space_cache=v2,subvol=/@arch	0 0
 
 # /dev/nvme1n1p1
-UUID=A4D8-44F7      	/boot     	vfat      	rw,relatime,fmask=0077,dmask=0077,codepage=437,iocharset=ascii,shortname=mixed,errors=remount-ro	0 2
+UUID=A4D8-44F7      	/boot     	vfat      	rw,relatime,fmask=0077,dmask=0077,codepage=437,iocharset=ascii,shortname=mixed,errors=remount-ro,nofail,x-systemd.automount	0 0
 
 # /dev/nvme0n1p2
 UUID=cf359ae3-d3a3-4e3d-bc17-9e1b042c352a	none      	swap      	defaults  	0 0
 
-/dev/disk/by-uuid/E4888080888052CA /mnt/data.disk ntfs3 defaults,noatime,ro 0 2
+UUID=E4888080888052CA /mnt/data.disk ntfs3 defaults,noatime,ro,nofail,x-systemd.automount,x-systemd.idle-timeout=60 0 0
