@@ -262,4 +262,10 @@ class DisplayManagerSet(PackageSet):
 class MangoDesktopSet(PackageSet):
     """Packages for mango wm desktop."""
 
-    packages = (WaylandAppsSet(), "mangowm", "memphis98-icon-theme-git", "pcmanfm-qt")
+    packages = (
+        WaylandAppsSet(),
+        "graphite-cursor-theme-git",
+        "mangowm",
+        "memphis98-icon-theme-git",
+        "pcmanfm-qt",
+    )
