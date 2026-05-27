@@ -91,7 +91,7 @@ class PackageWithFiles:
 class PackageSet:
     """A set of packages."""
 
-    packages: "Collection[str | PackageWithFiles | PackageSet]"
+    packages: "Collection[str | PackageWithFiles | PackageSet]" = ()
 
     def __init__(self) -> None:
         """Ensure no duplicates in `packages` by converting to set."""
