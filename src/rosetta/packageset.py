@@ -250,8 +250,12 @@ class DisplayManagerSet(PackageSet):
             "greetd",
             (FileToInstall("/etc/greetd/config.toml", 0o644),),
         ),
-        "greetd-regreet",
+        PackageWithFiles(
+            "greetd-regreet",
+            (FileToInstall("/usr/local/bin/regreet.sh", 0o755),),
+        ),
         "seatd",
+        "wlr-randr",
     )
 
 
